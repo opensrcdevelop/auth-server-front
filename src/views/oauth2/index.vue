@@ -7,6 +7,7 @@ import {
 import { getToken } from "@/api/login";
 import router from "@/router";
 import { ref } from "vue";
+import { checkConsoleAccess } from "@/util/commonFunc";
 
 // 获取地址栏授权码
 const code = getQueryString("code");
@@ -34,6 +35,8 @@ if (code) {
       state,
     })
       .then((res: any) => {
+        // 检查控制台访问权限
+        checkConsoleAccess();
         localStorage.setItem("accessToken", JSON.stringify(res));
         localStorage.removeItem("state");
         localStorage.removeItem("codeVerifier");

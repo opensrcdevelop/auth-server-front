@@ -1,3 +1,6 @@
+import { logoutSubmit } from "@/api/logout";
+import router from "@/router";
+import { useGlobalVariablesStore } from "@/store/globalVariables";
 import { Notification } from "@arco-design/web-vue";
 import CryptoJS from "crypto-js";
 

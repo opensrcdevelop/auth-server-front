@@ -1,6 +1,10 @@
 import { Notification } from "@arco-design/web-vue";
-import { reactive, ref, h, defineComponent } from "vue";
-import { getQueryString, handleApiError, handleApiSuccess } from "@/util/tool";
+import { reactive, ref, defineComponent } from "vue";
+import {
+  getQueryString,
+  handleApiError,
+  handleApiSuccess,
+} from "@/util/tool";
 import {
   loginSubmit,
   totpValidSubmit,
@@ -12,6 +16,7 @@ import {
 import { logoutSubmit } from "@/api/logout";
 import router from "@/router";
 import { useGlobalVariablesStore } from "@/store/globalVariables";
+import { checkConsoleAccess } from "@/util/commonFunc";
 
 const passwordLoginForm = reactive({
   username: undefined,
@@ -112,6 +117,7 @@ function toTarget() {
   if (target) {
     window.location.href = target;
   } else {
+    checkConsoleAccess();
     router.push({ path: "/" });
   }
 }
@@ -201,24 +207,10 @@ const handleEmailLoginFormSubmit = (formData) => {
  * @param result 登录结果
  */
 const handleLoginResult = (result: any, loginType: string) => {
-  // 判断控制台访问
-  if (!result.consoleAccess) {
-    logoutSubmit()
-      .then((result: any) => {
-        handleApiSuccess(result, () => {
-          router.push({
-            path: "/403",
-          });
-        });
-      })
-      .catch((err: any) => {
-        Notification.error(`退出登录失败: ${err.message}`);
-        router.push({
-          path: "/403",
-        });
-      });
-    return;
-  }
+  // 设置控制台访问权限
+  const globalVariables = useGlobalVariablesStore();
+  globalVariables.consoleAccess = result.consoleAccess;
+  globalVariables.saveData();
 
   // 需要修改密码
   if (result.needChangePwd) {
