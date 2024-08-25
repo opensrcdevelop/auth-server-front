@@ -1,0 +1,70 @@
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+
+  .title-container {
+    display: flex;
+    align-items: center;
+
+    .title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1d2129;
+      user-select: none;
+    }
+  }
+
+  .id {
+    width: 380px;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    color: #86909c;
+    user-select: none;
+  }
+}
+
+.tab-container {
+  padding: 16px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+}
+
+.info-title {
+  font-weight: 500;
+  font-size: 20px;
+  color: #1d2129;
+  margin-bottom: 16px;
+}
+
+.add-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+}
+
+.add-user-role-btn-container,
+.add-user-group-btn-container,
+.reset-pwd-btn-container
+ {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.condition-container {
+  background-color: #fff;
+  padding: 12px;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.table-column-name {
+  cursor: pointer;
+  color: #215ae5;
+}
+
