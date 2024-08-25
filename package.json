@@ -1,5 +1,5 @@
 {
-  "name": "auth-gateway-front",
+  "name": "auth-server-front",
   "version": "0.0.0",
   "private": true,
   "type": "module",
