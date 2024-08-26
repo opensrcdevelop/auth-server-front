@@ -2,7 +2,7 @@
   <a-layout-sider class="layout-sider">
     <Menu class="menu"></Menu>
     <div class="action-container">
-      <a-avatar :style="{ backgroundColor: '#3370ff' }"
+      <a-avatar :style="{ backgroundColor: '#396aff' }"
         >{{ currentUser.username }}</a-avatar
       >
       <a-trigger position="right" :popup-translate="[10, -10]">

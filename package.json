@@ -11,13 +11,12 @@
   },
   "dependencies": {
     "ant-design-vue": "^4.2.3",
-    "axios": "^1.7.2",
+    "axios": "^1.7.4",
     "crypto-js": "^4.2.0",
-    "pinia": "^2.1.7",
+    "pinia": "^2.2.1",
     "qs": "^6.12.1",
-    "sortablejs": "^1.15.2",
-    "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue": "^3.4.38",
+    "vue-router": "^4.4.3"
   },
   "devDependencies": {
     "@arco-design/web-vue": "^2.55.3",
