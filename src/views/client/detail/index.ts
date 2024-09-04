@@ -8,7 +8,7 @@ import {
   updateClientSecret,
 } from "@/api/client";
 import { useRoute } from "vue-router";
-import { handleApiError, handleApiSuccess } from "@/util/tool";
+import { getOAuthIssuer, handleApiError, handleApiSuccess } from "@/util/tool";
 import { Message, Modal, Notification } from "@arco-design/web-vue";
 import {
   createOidcClaim,
@@ -53,9 +53,7 @@ const clientName = ref("");
 const clientEndpointInfo = reactive({
   id: "",
   issuer: "",
-  openidConfiguration: `${
-    import.meta.env.VITE_OAUTH_ISSUER
-  }/.well-known/openid-configuration`,
+  openidConfiguration: `${getOAuthIssuer()}/.well-known/openid-configuration`,
   jwks: "",
   authorize: "",
   token: "",

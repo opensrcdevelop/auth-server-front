@@ -13,7 +13,7 @@ const searchKeyword = ref("");
 const handleGetClientList = (
   keyword: string,
   page: number = 1,
-  size: number = 20
+  size: number = -1
 ) => {
   clientList.length = 0;
 

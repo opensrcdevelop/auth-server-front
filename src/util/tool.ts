@@ -1,6 +1,3 @@
-import { logoutSubmit } from "@/api/logout";
-import router from "@/router";
-import { useGlobalVariablesStore } from "@/store/globalVariables";
 import { Notification } from "@arco-design/web-vue";
 import CryptoJS from "crypto-js";
 
@@ -95,3 +92,43 @@ export const generateCodeChallenge = (codeVerifier: string) => {
     .replace(/\//g, "_")
     .replace(/=/g, "");
 };
+
+/**
+ * 获取子域名（租户标识）
+ * 
+ * @returns 子域名（租户标识）
+ */
+export const getSubDomain = () => {
+  const hostname = window.location.hostname;
+  const defaultHostname = new URL(import.meta.env.VITE_DEFAULT_CONSOLE_URL).hostname;
+  if (hostname === defaultHostname) {
+    return "";
+  }
+  return hostname.split(".")[0];
+}
+
+/**
+ * 获取 OAuth Issuer
+ * 
+ * @returns 
+ */
+export const getOAuthIssuer = () => {
+  if (localStorage.getItem("OAuthIssuer")) {
+    return localStorage.getItem("OAuthIssuer");
+  }
+  return import.meta.env.VITE_DEFAULT_OAUTH_ISSUER;
+}
+
+/**
+ * 获取 Console Url
+ * 
+ * @returns Console Url
+ */
+export const getConsoleUrl = () => {
+  if (localStorage.getItem("tenantCode")) {
+    const tmpUrl = new URL(import.meta.env.VITE_DEFAULT_CONSOLE_URL)
+    return `${tmpUrl.protocol}//${localStorage.getItem("tenantCode")}.${tmpUrl.hostname}${tmpUrl.port ? `:${tmpUrl.port}` : ''}`
+  } else {
+    return import.meta.env.VITE_DEFAULT_CONSOLE_URL;
+  }
+}

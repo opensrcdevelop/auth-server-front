@@ -1,5 +1,6 @@
 import apiRequest from "@/util/apiRequest";
 import request from "@/util/request";
+import { getOAuthIssuer } from "@/util/tool";
 
 /**
  * 获取客户端列表
@@ -31,9 +32,7 @@ export function getClientDetail(id: string) {
  */
 export function getOidcEndpointInfo() {
   return request.get({
-    url: `${
-      import.meta.env.VITE_OAUTH_ISSUER
-    }/.well-known/openid-configuration`,
+    url: `${getOAuthIssuer()}/.well-known/openid-configuration`,
   });
 }
 

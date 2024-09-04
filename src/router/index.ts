@@ -86,6 +86,14 @@ export const menuRoutes: RouteRecordRaw[] = [
       },
     ],
   },
+  {
+    path: "/tenant",
+    component: () => import("@/views/tenant/index.vue"),
+    meta: {
+      title: "多租户",
+      icon: "icon-tenant",
+    },
+  },
 ];
 
 /** 页面路由 */
@@ -240,6 +248,22 @@ const pageRoutes: RouteRecordRaw[] = [
     meta: {
       parent: "/user/attr",
       title: "用户字段详情",
+    },
+  },
+  {
+    path: "/tenant/detail",
+    component: () => import("@/views/tenant/detail/index.vue"),
+    meta: {
+      parent: "/tenant",
+      title: "租户详情",
+    },
+  },
+  {
+    path: "/tenant/create",
+    component: () => import("@/views/tenant/create/index.vue"),
+    meta: {
+      parent: "/tenant",
+      title: "创建租户",
     },
   },
 ];
