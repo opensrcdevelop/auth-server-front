@@ -1,3 +1,6 @@
+import { checkTenant } from "@/api/tenant";
+import { getSubDomain, handleApiError, handleApiSuccess } from "@/util/tool";
+import { Notification } from "@arco-design/web-vue";
 import { RouteRecordRaw, createRouter, createWebHistory } from "vue-router";
 
 /** 菜单路由 */
@@ -310,21 +313,57 @@ const router = createRouter({
  * 前置路由拦截
  */
 router.beforeEach((to, from, next) => {
-  if (!localStorage.getItem("accessToken")) {
-    if (
-      to.path === "/oauth2/redirect" ||
-      to.path === "/login" ||
-      to.path === "/login/changePwd" ||
-      to.path === "/403" ||
-      to.path === "/404"
-    ) {
-      next();
-    } else {
-      router.push("/oauth2/redirect");
-    }
-  } else {
+  if (to.path === "/404") {
     next();
+  } else {
+    handleCheckTenant().then(() => {
+      if (!localStorage.getItem("accessToken")) {
+        if (
+          to.path === "/oauth2/redirect" ||
+          to.path === "/login" ||
+          to.path === "/login/changePwd" ||
+          to.path === "/403" ||
+          to.path === "/404"
+        ) {
+          next();
+        } else {
+          router.push("/oauth2/redirect");
+        }
+      } else {
+        next();
+      }
+    });
   }
 });
+
+/**
+ * 检查租户是否存在
+ */
+async function handleCheckTenant() {
+  const tenantCode = getSubDomain();
+  if (tenantCode) {
+    // 检查租户标识
+    try {
+      const checkRes = await checkTenant(tenantCode);
+      const data = checkRes.data as any;
+      if (data.exists) {
+        localStorage.setItem("OAuthIssuer", data.issuer);
+        localStorage.setItem("tenantCode", tenantCode);
+      } else {
+        // 租户不存在
+        localStorage.removeItem("OAuthIssuer");
+        localStorage.removeItem("tenantCode");
+        router.push({
+          path: "/404",
+        });
+      }
+    } catch (error) {
+      Notification.error("检查租户标识错误");
+      router.push({
+        path: "/404",
+      });
+    }
+  }
+}
 
 export default router;

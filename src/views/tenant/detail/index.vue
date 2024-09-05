@@ -84,10 +84,12 @@ export default detailTs;
               <a-descriptions-item label="Issuer">{{
                 endpointInfo.issuer
               }}</a-descriptions-item>
-              <a-descriptions-item label="Console URL">
-                <a-link :href="endpointInfo.consoleUrl">{{
-                  endpointInfo.consoleUrl
-                }}</a-link></a-descriptions-item
+              <a-descriptions-item label="控制台 URL">
+                <a-link>
+                  <a :href="endpointInfo.consoleUrl" target="_blank">{{
+                    endpointInfo.consoleUrl
+                  }}</a>
+                </a-link></a-descriptions-item
               >
             </a-descriptions>
           </div>

@@ -74,14 +74,20 @@ export default detailTs;
                   clientEndpointInfo.issuer
                 }}</a-descriptions-item>
                 <a-descriptions-item label="OpenID Connect URL">
-                  <a-link :href="clientEndpointInfo.openidConfiguration">{{
-                    clientEndpointInfo.openidConfiguration
-                  }}</a-link>
+                  <a-link>
+                    <a
+                      :href="clientEndpointInfo.openidConfiguration"
+                      target="_blank"
+                      >{{ clientEndpointInfo.openidConfiguration }}</a
+                    >
+                  </a-link>
                 </a-descriptions-item>
                 <a-descriptions-item label="JWKS 公钥端点">
-                  <a-link :href="clientEndpointInfo.jwks">{{
-                    clientEndpointInfo.jwks
-                  }}</a-link>
+                  <a-link>
+                    <a :href="clientEndpointInfo.jwks" target="_blank">{{
+                      clientEndpointInfo.jwks
+                    }}</a>
+                  </a-link>
                 </a-descriptions-item>
                 <a-descriptions-item label="认证端点">
                   {{ clientEndpointInfo.authorize }}
