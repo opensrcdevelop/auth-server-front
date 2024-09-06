@@ -80,6 +80,7 @@ export default detailTs;
                       target="_blank"
                       >{{ clientEndpointInfo.openidConfiguration }}</a
                     >
+                    <icon-launch style="margin-left: 4px;" />
                   </a-link>
                 </a-descriptions-item>
                 <a-descriptions-item label="JWKS 公钥端点">
@@ -87,6 +88,7 @@ export default detailTs;
                     <a :href="clientEndpointInfo.jwks" target="_blank">{{
                       clientEndpointInfo.jwks
                     }}</a>
+                    <icon-launch style="margin-left: 4px;" />
                   </a-link>
                 </a-descriptions-item>
                 <a-descriptions-item label="认证端点">

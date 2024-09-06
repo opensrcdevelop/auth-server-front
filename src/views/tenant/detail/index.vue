@@ -89,6 +89,7 @@ export default detailTs;
                   <a :href="endpointInfo.consoleUrl" target="_blank">{{
                     endpointInfo.consoleUrl
                   }}</a>
+                  <icon-launch style="margin-left: 4px;" />
                 </a-link></a-descriptions-item
               >
             </a-descriptions>
