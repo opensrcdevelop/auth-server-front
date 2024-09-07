@@ -12,6 +12,23 @@ const handleBack = () => {
   router.back();
 };
 
+const activeTab = ref("user_column_info");
+
+/**
+ * tab 切换事件
+ *
+ * @param tabKey tabKey
+ */
+const handleTabChange = (tabKey: string) => {
+  router.replace({
+    query: {
+      ...router.currentRoute.value.query,
+      active_tab: tabKey,
+    },
+  });
+  activeTab.value = tabKey;
+};
+
 const userColumnId = ref("");
 const userColumnName = ref("");
 
@@ -84,6 +101,9 @@ export default defineComponent({
   setup() {
     onMounted(() => {
       const route = useRoute();
+      if (route.query.active_tab) {
+        activeTab.value = route.query.active_tab as string;
+      }
       const userColumnId = route.query.id as string;
 
       handleGetUserColumnDetail(userColumnId);
@@ -91,6 +111,8 @@ export default defineComponent({
 
     return {
       handleBack,
+      activeTab,
+      handleTabChange,
       userColumnId,
       userColumnName,
       userColumnInfoFormRef,

@@ -30,6 +30,23 @@ const handleBack = () => {
   router.back();
 };
 
+const activeTab = ref("user_info");
+
+/**
+ * tab 切换事件
+ *
+ * @param tabKey tabKey
+ */
+const handleTabChange = (tabKey: string) => {
+  router.replace({
+    query: {
+      ...router.currentRoute.value.query,
+      active_tab: tabKey,
+    },
+  });
+  activeTab.value = tabKey;
+};
+
 const userId = ref("");
 const username = ref("");
 
@@ -232,7 +249,9 @@ const handleSetConsoleAccessStatus = (consoleAccess: boolean) => {
   })
     .then((result: any) => {
       handleApiSuccess(result, () => {
-        Notification.success(consoleAccess ? "开启控制台访问成功" : "关闭控制台访问成功");
+        Notification.success(
+          consoleAccess ? "开启控制台访问成功" : "关闭控制台访问成功"
+        );
         handleGetUserDetail(userId.value);
       });
     })
@@ -748,6 +767,18 @@ const handleAuthorize = () => {
 };
 
 /**
+ * 跳转资源组详情
+ */
+const handleToResourceGroupDetail = (id: string) => {
+  router.push({
+    path: "/resource/group/detail",
+    query: {
+      id,
+    },
+  });
+};
+
+/**
  * 跳转资源详情
  */
 const handleToResourceDetail = (id: string) => {
@@ -775,6 +806,9 @@ export default defineComponent({
   setup() {
     onMounted(() => {
       const route = useRoute();
+      if (route.query.active_tab) {
+        activeTab.value = route.query.active_tab as string;
+      }
       const userId = route.query.id as string;
       handleGetUserDetail(userId);
       handleGetUserExtAttrs();
@@ -782,6 +816,8 @@ export default defineComponent({
 
     return {
       handleBack,
+      activeTab,
+      handleTabChange,
       userId,
       username,
       userInfoForm,
@@ -836,6 +872,7 @@ export default defineComponent({
       hantoToUserGroupDetail,
       authorizeVisible,
       handleAuthorize,
+      handleToResourceGroupDetail,
       handleToResourceDetail,
       handleToPermissionDetail,
       accountLocked,

@@ -59,6 +59,21 @@ const handleCreateTenantInfoFormSubmit = (formData: any) => {
     });
 };
 
+/**
+ * 生成租户标识
+ * 
+ * @returns 租户标识
+ */
+const handleGenerateTenantCode = () => {
+  let text = "";
+  const possible =
+    "abcdefghijklmnopqrstuvwxyz0123456789";
+  for (let i = 0; i < 8; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  createTenantInfoForm.code = text;
+}
+
 export default defineComponent({
   setup() {
     return {
@@ -68,6 +83,7 @@ export default defineComponent({
       createTenantInfoFormRules,
       handleResetCreateTenantInfoForm,
       handleCreateTenantInfoFormSubmit,
+      handleGenerateTenantCode
     };
   },
 });

@@ -22,8 +22,8 @@ export default detailTs;
           >创建权限</a-button
         >
       </div>
-      <a-tabs default-active-key="1">
-        <a-tab-pane key="1" title="资源信息">
+      <a-tabs :active-key="activeTab" @change="handleTabChange">
+        <a-tab-pane key="resource_info" title="资源信息">
           <div class="tab-container">
             <div class="info-title">基本信息</div>
             <a-form
@@ -96,7 +96,7 @@ export default detailTs;
             </a-form>
           </div>
         </a-tab-pane>
-        <a-tab-pane key="2" title="权限列表">
+        <a-tab-pane key="permission_list" title="权限列表">
           <div class="tab-container">
             <a-input-search
               :style="{ width: '320px' }"

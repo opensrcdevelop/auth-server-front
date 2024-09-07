@@ -19,8 +19,8 @@ export default detailTs;
           </div>
         </div>
       </div>
-      <a-tabs default-active-key="1">
-        <a-tab-pane key="1" title="限制条件信息">
+      <a-tabs :active-key="activeTab" @change="handleTabChange">
+        <a-tab-pane key="condition_info" title="限制条件信息">
           <div class="tab-container">
             <div class="info-title">基本信息</div>
             <a-form
@@ -95,9 +95,13 @@ export default detailTs;
                   }"
                 >
                   <template #cell="{ record }">
-                    <span class="table-column-name">{{
-                      record.resourceGroupName
-                    }}</span>
+                    <span
+                      class="table-column-name"
+                      @click="
+                        handleToResourceGroupDetail(record.resourceGroupId)
+                      "
+                      >{{ record.resourceGroupName }}</span
+                    >
                   </template>
                 </a-table-column>
                 <a-table-column

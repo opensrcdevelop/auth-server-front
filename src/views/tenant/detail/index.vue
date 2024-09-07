@@ -19,8 +19,8 @@ export default detailTs;
           </div>
         </div>
       </div>
-      <a-tabs default-active-key="1">
-        <a-tab-pane key="1" title="租户信息">
+      <a-tabs :active-key="activeTab" @change="handleTabChange">
+        <a-tab-pane key="tanant_info" title="租户信息">
           <div class="tab-container">
             <div class="info-title">基本信息</div>
             <a-form
@@ -89,9 +89,8 @@ export default detailTs;
                   <a :href="endpointInfo.consoleUrl" target="_blank">{{
                     endpointInfo.consoleUrl
                   }}</a>
-                  <icon-launch style="margin-left: 4px;" />
-                </a-link></a-descriptions-item
-              >
+                  <icon-launch style="margin-left: 4px" /> </a-link
+              ></a-descriptions-item>
             </a-descriptions>
           </div>
         </a-tab-pane>

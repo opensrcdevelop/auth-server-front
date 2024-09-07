@@ -29,11 +29,20 @@ export default createTs;
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item field="code" label="租户标识" tooltip="创建后不可以修改">
-              <a-input
-                v-model="createTenantInfoForm.code"
-                placeholder="请输入租户标识"
-              />
+            <a-form-item
+              field="code"
+              label="租户标识"
+              tooltip="创建后不可以修改"
+            >
+              <a-input-group style="width: 100%">
+                <a-input
+                  v-model="createTenantInfoForm.code"
+                  placeholder="请输入租户标识"
+                />
+                <a-button @click="handleGenerateTenantCode"
+                  >生成租户标识</a-button
+                >
+              </a-input-group>
             </a-form-item>
           </a-col>
         </a-row>

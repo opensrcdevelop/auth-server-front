@@ -17,6 +17,23 @@ const handleBack = () => {
   router.back();
 };
 
+const activeTab = ref("resource_group_info");
+
+/**
+ * tab 切换事件
+ *
+ * @param tabKey tabKey
+ */
+const handleTabChange = (tabKey: string) => {
+  router.replace({
+    query: {
+      ...router.currentRoute.value.query,
+      active_tab: tabKey,
+    },
+  });
+  activeTab.value = tabKey;
+};
+
 const resourceGroupId = ref("");
 const resourceGroupName = ref("");
 
@@ -184,6 +201,9 @@ export default defineComponent({
   setup() {
     onMounted(() => {
       const route = useRoute();
+      if (route.query.active_tab) {
+        activeTab.value = route.query.active_tab as string;
+      }
       const resourceGroupId = route.query.id as string;
       handleGetResourceGroupDetail(resourceGroupId);
       handleGetGroupResourceList(resourceGroupId);
@@ -191,6 +211,8 @@ export default defineComponent({
 
     return {
       handleBack,
+      activeTab,
+      handleTabChange,
       resourceGroupId,
       resourceGroupName,
       resourceGroupInfoFromRef,

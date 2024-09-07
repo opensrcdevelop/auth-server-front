@@ -19,8 +19,8 @@ export default detailTs;
           </div>
         </div>
       </div>
-      <a-tabs default-active-key="1">
-        <a-tab-pane key="1" title="用户字段信息">
+      <a-tabs :active-key="activeTab" @change="handleTabChange">
+        <a-tab-pane key="user_column_info" title="用户字段信息">
           <div class="tab-container">
             <div class="info-title">基本信息</div>
             <a-form
@@ -40,7 +40,11 @@ export default detailTs;
                   </a-form-item>
                 </a-col>
                 <a-col :span="12">
-                  <a-form-item field="key" label="字段 Key" tooltip="创建后不可以修改">
+                  <a-form-item
+                    field="key"
+                    label="字段 Key"
+                    tooltip="创建后不可以修改"
+                  >
                     <a-input
                       v-model="userColumnInfoForm.key"
                       placeholder="请输入字段 Key"
@@ -49,7 +53,11 @@ export default detailTs;
                   </a-form-item>
                 </a-col>
                 <a-col :span="12">
-                  <a-form-item field="dataType" label="表单类型" tooltip="创建后不可以修改">
+                  <a-form-item
+                    field="dataType"
+                    label="表单类型"
+                    tooltip="创建后不可以修改"
+                  >
                     <a-select
                       v-model="userColumnInfoForm.dataType"
                       placeholder="请选择表单类型"
@@ -63,7 +71,11 @@ export default detailTs;
                   </a-form-item>
                 </a-col>
                 <a-col :span="12">
-                  <a-form-item field="extFlg" label="字段类型" tooltip="创建后不可以修改">
+                  <a-form-item
+                    field="extFlg"
+                    label="字段类型"
+                    tooltip="创建后不可以修改"
+                  >
                     <a-select
                       v-model="userColumnInfoForm.extFlg"
                       placeholder="请选择字段类型"
@@ -106,7 +118,9 @@ export default detailTs;
               <a-form-item hide-label>
                 <a-space>
                   <a-button type="primary" html-type="submit">保存</a-button>
-                  <a-button @click="handleResetUserColumnInfoForm">重置</a-button>
+                  <a-button @click="handleResetUserColumnInfoForm"
+                    >重置</a-button
+                  >
                 </a-space>
               </a-form-item>
             </a-form>

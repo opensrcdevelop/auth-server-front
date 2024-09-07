@@ -21,6 +21,23 @@ const handleBack = () => {
   router.back();
 };
 
+const activeTab = ref("user_group_info");
+
+/**
+ * tab 切换事件
+ *
+ * @param tabKey tabKey
+ */
+const handleTabChange = (tabKey: string) => {
+  router.replace({
+    query: {
+      ...router.currentRoute.value.query,
+      active_tab: tabKey,
+    },
+  });
+  activeTab.value = tabKey;
+};
+
 const userGroupName = ref("");
 const userGroupId = ref("");
 
@@ -456,6 +473,19 @@ const handleAuthorize = () => {
 };
 
 /**
+ * 跳转资源组详情
+ */
+const handleToResourceGroupDetail = (id: string) => {
+  router.push({
+    path: "/resource/group/detail",
+    query: {
+      id,
+    },
+  });
+};
+
+
+/**
  * 跳转资源详情
  */
 const handleToResourceDetail = (id: string) => {
@@ -483,6 +513,9 @@ export default defineComponent({
   setup() {
     onMounted(() => {
       const route = useRoute();
+      if (route.query.active_tab) {
+        activeTab.value = route.query.active_tab as string;
+      }
       const userGroupId = route.query.id as string;
       handleGetUserGroupDetail(userGroupId);
       handleGetGroupUsers(userGroupId);
@@ -490,6 +523,8 @@ export default defineComponent({
 
     return {
       handleBack,
+      activeTab,
+      handleTabChange,
       userGroupName,
       userGroupId,
       groupUsers,
@@ -528,6 +563,7 @@ export default defineComponent({
       handleToUserDetail,
       authorizeVisible,
       handleAuthorize,
+      handleToResourceGroupDetail,
       handleToResourceDetail,
       handleToPermissionDetail,
     };
