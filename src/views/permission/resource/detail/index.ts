@@ -18,6 +18,23 @@ const handleBack = () => {
   router.back();
 };
 
+const activeTab = ref("resource_info");
+
+/**
+ * tab 切换事件
+ *
+ * @param tabKey tabKey
+ */
+const handleTabChange = (tabKey: string) => {
+  router.replace({
+    query: {
+      ...router.currentRoute.value.query,
+      active_tab: tabKey,
+    },
+  });
+  activeTab.value = tabKey;
+};
+
 const resourceId = ref("");
 const resourceName = ref("");
 
@@ -232,6 +249,9 @@ export default defineComponent({
   setup() {
     onMounted(() => {
       const route = useRoute();
+      if (route.query.active_tab) {
+        activeTab.value = route.query.active_tab as string;
+      }
       const resourceId = route.query.id as string;
       handleGetResourceDetail(resourceId);
       handleGetResourcePermissions(resourceId);
@@ -239,6 +259,8 @@ export default defineComponent({
 
     return {
       handleBack,
+      activeTab,
+      handleTabChange,
       resourceId,
       resourceName,
       resourceInfoFormRef,

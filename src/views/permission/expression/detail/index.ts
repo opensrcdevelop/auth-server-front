@@ -16,6 +16,23 @@ const handleBack = () => {
   router.back();
 };
 
+const activeTab = ref("condition_info");
+
+/**
+ * tab 切换事件
+ *
+ * @param tabKey tabKey
+ */
+const handleTabChange = (tabKey: string) => {
+  router.replace({
+    query: {
+      ...router.currentRoute.value.query,
+      active_tab: tabKey,
+    },
+  });
+  activeTab.value = tabKey;
+};
+
 const permissionExpId = ref("");
 const permissionExpName = ref("");
 
@@ -120,15 +137,15 @@ const handleRemoveAuthorizeCondition = (authorizeId: string) => {
  * 跳转被授权主体详情
  */
 const handeToPrincipalDetail = (principal: any) => {
-  if (principal.principalType === "user") {
+  if (principal.principalType === "USER") {
     handleToUserDetail(principal.principalId);
   }
 
-  if (principal.principalType === "userGroup") {
+  if (principal.principalType === "USER_GROUP") {
     hantoToUserGroupDetail(principal.principalId);
   }
 
-  if (principal.principalType === "role") {
+  if (principal.principalType === "ROLE") {
     handleToRoleDetail(principal.principalId);
   }
 };
@@ -170,6 +187,18 @@ const handleToRoleDetail = (id: string) => {
 };
 
 /**
+ * 跳转资源组详情
+ */
+const handleToResourceGroupDetail = (id: string) => {
+  router.push({
+    path: "/resource/group/detail",
+    query: {
+      id,
+    },
+  });
+};
+
+/**
  * 跳转资源详情
  */
 const handleToResourceDetail = (id: string) => {
@@ -197,12 +226,17 @@ export default defineComponent({
   setup() {
     onMounted(() => {
       const route = useRoute();
+      if (route.query.active_tab) {
+        activeTab.value = route.query.active_tab as string;
+      }
       const permissionExpId = route.query.id as string;
       handleGetPermissionExpDetail(permissionExpId);
     });
 
     return {
       handleBack,
+      activeTab,
+      handleTabChange,
       permissionExpId,
       permissionExpName,
       permissionExpInfoFormRef,
@@ -210,6 +244,7 @@ export default defineComponent({
       permissionExpInfoFormRules,
       permissions,
       handeToPrincipalDetail,
+      handleToResourceGroupDetail,
       handleToResourceDetail,
       handleToPermissionDetail,
       handleRemoveAuthorizeCondition,

@@ -18,7 +18,7 @@ export default clientTs;
     </div>
 
     <a-tabs default-active-key="1">
-      <a-tab-pane key="1" title="客户端管理">
+      <a-tab-pane key="1" title="客户端列表">
         <div class="client-search">
           <a-input-search
             v-model="searchKeyword"

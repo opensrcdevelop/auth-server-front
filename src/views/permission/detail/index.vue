@@ -19,10 +19,10 @@ export default detailTs;
           </div>
         </div>
       </div>
-      <a-tabs default-active-key="1">
-        <a-tab-pane key="1" title="基本信息">
+      <a-tabs :active-key="activeTab" @change="handleTabChange">
+        <a-tab-pane key="permission_info" title="权限信息">
           <div class="tab-container">
-            <div class="info-title">权限信息</div>
+            <div class="info-title">基本信息</div>
             <a-form
               :model="permissionInfoForm"
               ref="permissionInfoFormRef"
@@ -69,7 +69,7 @@ export default detailTs;
             </a-form>
           </div>
         </a-tab-pane>
-        <a-tab-pane key="2" title="授权管理">
+        <a-tab-pane key="authorization_management" title="授权管理">
           <div class="tab-container">
             <a-input-search
               :style="{ width: '320px' }"
@@ -133,7 +133,12 @@ export default detailTs;
                           </template>
                         </a-button>
                         <template #content>
-                          <a-doption style="color: #e8353e" @click="handleCancelAuthorization(record.principalId)">
+                          <a-doption
+                            style="color: #e8353e"
+                            @click="
+                              handleCancelAuthorization(record.principalId)
+                            "
+                          >
                             <template #icon>
                               <icon-undo />
                             </template>

@@ -13,8 +13,8 @@ export default detailTs;
       <div class="detail-header">
         {{ clientName }}
       </div>
-      <a-tabs default-active-key="1">
-        <a-tab-pane key="1" title="客户端配置">
+      <a-tabs @change="handleTabChange" :active-key="activeTab">
+        <a-tab-pane key="client_setting" title="客户端配置">
           <div class="tab-container">
             <div>
               <div class="info-title">基本信息</div>
@@ -74,14 +74,22 @@ export default detailTs;
                   clientEndpointInfo.issuer
                 }}</a-descriptions-item>
                 <a-descriptions-item label="OpenID Connect URL">
-                  <a-link :href="clientEndpointInfo.openidConfiguration">{{
-                    clientEndpointInfo.openidConfiguration
-                  }}</a-link>
+                  <a-link>
+                    <a
+                      :href="clientEndpointInfo.openidConfiguration"
+                      target="_blank"
+                      >{{ clientEndpointInfo.openidConfiguration }}</a
+                    >
+                    <icon-launch style="margin-left: 4px" />
+                  </a-link>
                 </a-descriptions-item>
                 <a-descriptions-item label="JWKS 公钥端点">
-                  <a-link :href="clientEndpointInfo.jwks">{{
-                    clientEndpointInfo.jwks
-                  }}</a-link>
+                  <a-link>
+                    <a :href="clientEndpointInfo.jwks" target="_blank">{{
+                      clientEndpointInfo.jwks
+                    }}</a>
+                    <icon-launch style="margin-left: 4px" />
+                  </a-link>
                 </a-descriptions-item>
                 <a-descriptions-item label="认证端点">
                   {{ clientEndpointInfo.authorize }}
@@ -140,7 +148,7 @@ export default detailTs;
             </div>
           </div>
         </a-tab-pane>
-        <a-tab-pane key="2" title="协议配置">
+        <a-tab-pane key="oidc_setting" title="协议配置">
           <div class="tab-container">
             <div>
               <div class="info-title">授权配置</div>

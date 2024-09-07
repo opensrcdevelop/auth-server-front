@@ -103,8 +103,11 @@ export default detailTs;
           >
         </a-space>
       </div>
-      <a-tabs default-active-key="1">
-        <a-tab-pane key="1" title="用户信息">
+      <a-tabs
+        :active-key="activeTab"
+        @change="handleTabChange"
+      >
+        <a-tab-pane key="user_info" title="用户信息">
           <div class="tab-container">
             <div class="info-title">账号信息</div>
             <a-form :model="accountInfoForm" layout="vertical">
@@ -239,7 +242,7 @@ export default detailTs;
             </a-form>
           </div>
         </a-tab-pane>
-        <a-tab-pane key="2" title="用户归属">
+        <a-tab-pane key="user_belong" title="用户归属">
           <div class="tab-container">
             <div class="info-title">用户角色</div>
             <div class="add-container">
@@ -357,7 +360,7 @@ export default detailTs;
             </a-table>
           </div>
         </a-tab-pane>
-        <a-tab-pane key="3" title="权限管理">
+        <a-tab-pane key="permission_management" title="权限管理">
           <div class="tab-container">
             <div class="info-title">权限授权</div>
             <div class="add-container">
@@ -403,9 +406,13 @@ export default detailTs;
                   }"
                 >
                   <template #cell="{ record }">
-                    <span class="table-column-name">{{
-                      record.resourceGroupName
-                    }}</span>
+                    <span
+                      class="table-column-name"
+                      @click="
+                        handleToResourceGroupDetail(record.resourceGroupId)
+                      "
+                      >{{ record.resourceGroupName }}</span
+                    >
                   </template>
                 </a-table-column>
                 <a-table-column

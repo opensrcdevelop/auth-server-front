@@ -8,7 +8,8 @@ import type {
 import pinia from "@/store";
 import { useGlobalVariablesStore } from "@/store/globalVariables";
 import router from "@/router";
-import { base64Str } from "./tool";
+import { base64Str, getOAuthIssuer } from "./tool";
+import { Notification } from "@arco-design/web-vue";
 
 type Result<T> = {
   success: boolean;
@@ -24,18 +25,22 @@ export class Request {
   instance: AxiosInstance;
   // 基础配置
   baseConfig: AxiosRequestConfig = {};
+  // 前缀
+  prefix: string = "";
 
-  constructor(config: AxiosRequestConfig) {
+  constructor(config: AxiosRequestConfig, prefix: string = "") {
     this.instance = axios.create(Object.assign(this.baseConfig, config));
+    this.prefix = prefix;
 
     this.instance.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
         globalVariables.apiLoading = true;
+        config.baseURL = prefix ? `${getOAuthIssuer()}${prefix}` : getOAuthIssuer();
 
         const accessToken = localStorage.getItem("accessToken");
         if (accessToken) {
           const token: any = JSON.parse(accessToken);
-          if (token && config.url !== "/oauth2/token") {
+          if (token && config.url !== "/oauth2/token" && !config.url.startsWith("/tenant/check/")) {
             config.headers!.Authorization = `${token.token_type} ${token.access_token}`;
           }
         }
@@ -144,7 +149,7 @@ async function hanlde401(axios: AxiosInstance) {
     if (accessTokenJson.refresh_token) {
       try {
         const res = await axios.request({
-          baseURL: import.meta.env.VITE_OAUTH_ISSUER,
+          baseURL: getOAuthIssuer(),
           url: "/oauth2/token",
           method: "POST",
           headers: {
@@ -163,6 +168,7 @@ async function hanlde401(axios: AxiosInstance) {
         localStorage.setItem("accessToken", JSON.stringify(res));
         return true;
       } catch (err) {
+        Notification.error("刷新 token 失败")
         // 如果获取失败，则跳转到登录页面
         router.push({
           path: "/oauth2-redirect",

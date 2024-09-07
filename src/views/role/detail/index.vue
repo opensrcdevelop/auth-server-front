@@ -18,8 +18,8 @@ export default detailTs;
         </div>
       </div>
 
-      <a-tabs default-active-key="1">
-        <a-tab-pane key="1" title="角色信息">
+      <a-tabs :active-key="activeTab" @change="handleTabChange">
+        <a-tab-pane key="role_info" title="角色信息">
           <div class="tab-container">
             <div class="info-title">基本信息</div>
             <a-form
@@ -131,7 +131,7 @@ export default detailTs;
             </a-table>
           </div>
         </a-tab-pane>
-        <a-tab-pane key="2" title="权限管理">
+        <a-tab-pane key="permission_management" title="权限管理">
           <div class="tab-container">
             <div class="info-title">权限授权</div>
             <div class="add-container">
@@ -157,9 +157,13 @@ export default detailTs;
                   }"
                 >
                   <template #cell="{ record }">
-                    <span class="table-column-name">{{
-                      record.resourceGroupName
-                    }}</span>
+                    <span
+                      class="table-column-name"
+                      @click="
+                        handleToResourceGroupDetail(record.resourceGroupId)
+                      "
+                      >{{ record.resourceGroupName }}</span
+                    >
                   </template>
                 </a-table-column>
                 <a-table-column

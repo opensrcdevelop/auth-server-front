@@ -17,8 +17,8 @@ export default detailTs;
           <copy-text :text="resourceGroupId" textColor="#86909c" />
         </div>
       </div>
-      <a-tabs default-active-key="1">
-        <a-tab-pane key="1" title="资源组信息">
+      <a-tabs :active-key="activeTab" @change="handleTabChange">
+        <a-tab-pane key="resource_group_info" title="资源组信息">
           <div class="tab-container">
             <div class="info-title">基本信息</div>
             <a-form

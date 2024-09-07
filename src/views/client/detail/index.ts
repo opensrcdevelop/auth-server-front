@@ -8,7 +8,7 @@ import {
   updateClientSecret,
 } from "@/api/client";
 import { useRoute } from "vue-router";
-import { handleApiError, handleApiSuccess } from "@/util/tool";
+import { getOAuthIssuer, handleApiError, handleApiSuccess } from "@/util/tool";
 import { Message, Modal, Notification } from "@arco-design/web-vue";
 import {
   createOidcClaim,
@@ -27,6 +27,23 @@ import { getUserAttrs } from "@/api/user";
  */
 const handleBack = () => {
   router.back();
+};
+
+const activeTab = ref("client_setting");
+
+/**
+ * tab 切换事件
+ *
+ * @param tabKey tabKey
+ */
+const handleTabChange = (tabKey: string) => {
+  router.replace({
+    query: {
+      ...router.currentRoute.value.query,
+      active_tab: tabKey,
+    },
+  });
+  activeTab.value = tabKey;
 };
 
 /** 基本信息 */
@@ -53,9 +70,7 @@ const clientName = ref("");
 const clientEndpointInfo = reactive({
   id: "",
   issuer: "",
-  openidConfiguration: `${
-    import.meta.env.VITE_OAUTH_ISSUER
-  }/.well-known/openid-configuration`,
+  openidConfiguration: `${getOAuthIssuer()}/.well-known/openid-configuration`,
   jwks: "",
   authorize: "",
   token: "",
@@ -545,6 +560,9 @@ export default defineComponent({
   setup() {
     onMounted(() => {
       const route = useRoute();
+      if (route.query.active_tab) {
+        activeTab.value = route.query.active_tab as string;
+      }
       const clientId = route.query.id as string;
       handleGetClientDetail(clientId);
       handleGetOidcEndpointInfo();
@@ -555,6 +573,8 @@ export default defineComponent({
 
     return {
       handleBack,
+      activeTab,
+      handleTabChange,
       clientBasicInfoForm,
       clientBasicInfoFormRules,
       handleClientBasicInfoFormSubmit,

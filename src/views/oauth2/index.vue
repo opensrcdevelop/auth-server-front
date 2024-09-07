@@ -3,6 +3,8 @@ import {
   generateRandomString,
   getQueryString,
   generateCodeChallenge,
+  getOAuthIssuer,
+getConsoleUrl
 } from "@/util/tool";
 import { getToken } from "@/api/login";
 import router from "@/router";
@@ -29,7 +31,7 @@ if (code) {
       grant_type: "authorization_code",
       client_id: import.meta.env.VITE_OAUTH_CLIENT_ID,
       client_secret: import.meta.env.VITE_OAUTH_CLIENT_SECRET,
-      redirect_uri: import.meta.env.VITE_OAUTH_REDIRECT_URI,
+      redirect_uri: `${getConsoleUrl()}/oauth2/redirect`,
       code,
       code_verifier: localStorage.getItem("codeVerifier"),
       state,
@@ -61,12 +63,10 @@ if (code) {
 
   // 获取授权码
   window.location.href = `${
-    import.meta.env.VITE_OAUTH_ISSUER
+    getOAuthIssuer()
   }/oauth2/authorize?client_id=${
     import.meta.env.VITE_OAUTH_CLIENT_ID
-  }&response_type=code&scope=openid&redirect_uri=${
-    import.meta.env.VITE_OAUTH_REDIRECT_URI
-  }&code_challenge=${codeChallenge}&code_challenge_method=S256&state=${state}`;
+  }&response_type=code&scope=openid&redirect_uri=${getConsoleUrl()}/oauth2/redirect&code_challenge=${codeChallenge}&code_challenge_method=S256&state=${state}`;
 }
 
 loading.value = false;
