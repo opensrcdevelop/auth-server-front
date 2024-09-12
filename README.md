@@ -1,33 +1,32 @@
-# auth-gateway-front
+# 认证授权服务控制台（Auth Server Console）
 
-This template should help get you started developing with Vue 3 in Vite.
+认证授权服务控制台（Auth Server Console）为 [**Auth Server**]([](https://github.com/opensrcdevelop/auth)) 前端工程。
 
-## Recommended IDE Setup
+### 主要技术
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Vite
 
-## Type Support for `.vue` Imports in TS
+- Vue3
+- Vue Router
+- Pinia
+- Arco Design
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+### 主要功能
 
-## Customize configuration
+- 客户端
+- 用户管理
+  - 用户列表
+  - 用户组管理
+  - 字段管理
+- 资源管理
+  - 资源组管理
+- 权限管理
+  - 资源权限
+  - 角色管理
+  - 限制条件
+- 多租户
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+### 持续集成（CI）
 
-## Project Setup
+基于 [**GitHub Actions**](https://docs.github.com/zh/actions) 实现持续集成（CI），自动编译、打包、构建 Docker 镜像、发布到镜像仓库。
 
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
