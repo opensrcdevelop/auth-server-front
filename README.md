@@ -1,6 +1,6 @@
 # 认证授权服务控制台（Auth Server Console）
 
-认证授权服务控制台（Auth Server Console）为 [**Auth Server**]([](https://github.com/opensrcdevelop/auth)) 前端工程。
+认证授权服务控制台（Auth Server Console）为 ([**Auth Server**](https://github.com/opensrcdevelop/auth)) 前端工程。
 
 ### 主要技术
 
