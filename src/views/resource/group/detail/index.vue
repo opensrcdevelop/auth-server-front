@@ -38,11 +38,12 @@ export default detailTs;
                   </a-form-item>
                 </a-col>
                 <a-col :span="12">
-                  <a-form-item field="code" label="资源组标识">
-                    <a-input
-                      v-model="resourceGroupInfoFrom.code"
-                      placeholder="请输入资源组标识"
-                    />
+                  <a-form-item
+                    field="code"
+                    label="资源组标识"
+                    tooltip="创建后不可以修改"
+                  >
+                    <a-input v-model="resourceGroupInfoFrom.code" disabled />
                   </a-form-item>
                 </a-col>
               </a-row>
