@@ -4,11 +4,12 @@ import {
   getQueryString,
   generateCodeChallenge,
   getOAuthIssuer,
-getConsoleUrl
+  getConsoleUrl,
 } from "@/util/tool";
 import { getToken } from "@/api/login";
 import router from "@/router";
 import { ref } from "vue";
+import { useGlobalVariablesStore } from "@/store/globalVariables";
 import { checkConsoleAccess } from "@/util/commonFunc";
 
 // 获取地址栏授权码
@@ -19,35 +20,38 @@ const hasError = ref(false);
 const errorText = ref("");
 
 if (code) {
-  // 校验 state，防止 CSRF
-  const state = localStorage.getItem("state");
-  const urlState = getQueryString("state");
-  if (urlState !== state) {
-    hasError.value = true;
-    errorText.value = "state 不匹配，可能存在 CSRF 攻击";
-  } else {
-    // 获取 token
-    getToken({
-      grant_type: "authorization_code",
-      client_id: import.meta.env.VITE_OAUTH_CLIENT_ID,
-      client_secret: import.meta.env.VITE_OAUTH_CLIENT_SECRET,
-      redirect_uri: `${getConsoleUrl()}/oauth2/redirect`,
-      code,
-      code_verifier: localStorage.getItem("codeVerifier"),
-      state,
-    })
-      .then((res: any) => {
-        // 检查控制台访问权限
-        checkConsoleAccess();
-        localStorage.setItem("accessToken", JSON.stringify(res));
-        localStorage.removeItem("state");
-        localStorage.removeItem("codeVerifier");
-        router.push({ path: "/" });
+  const globalVariables = useGlobalVariablesStore().getData();
+  if (globalVariables.consoleAccess) {
+    // 校验 state，防止 CSRF
+    const state = localStorage.getItem("state");
+    const urlState = getQueryString("state");
+    if (urlState !== state) {
+      hasError.value = true;
+      errorText.value = "state 不匹配，可能存在 CSRF 攻击";
+    } else {
+      // 获取 token
+      getToken({
+        grant_type: "authorization_code",
+        client_id: import.meta.env.VITE_OAUTH_CLIENT_ID,
+        client_secret: import.meta.env.VITE_OAUTH_CLIENT_SECRET,
+        redirect_uri: `${getConsoleUrl()}/oauth2/redirect`,
+        code,
+        code_verifier: localStorage.getItem("codeVerifier"),
+        state,
       })
-      .catch((err: any) => {
-        hasError.value = true;
-        errorText.value = err.data.message || err.statusText;
-      });
+        .then((res: any) => {
+          localStorage.setItem("accessToken", JSON.stringify(res));
+          localStorage.removeItem("state");
+          localStorage.removeItem("codeVerifier");
+          router.push({ path: "/" });
+        })
+        .catch((err: any) => {
+          hasError.value = true;
+          errorText.value = err.data.message || err.statusText;
+        });
+    }
+  } else {
+    checkConsoleAccess();
   }
 } else {
   // 生成 state
@@ -62,9 +66,7 @@ if (code) {
   localStorage.setItem("codeVerifier", codeVerifier);
 
   // 获取授权码
-  window.location.href = `${
-    getOAuthIssuer()
-  }/oauth2/authorize?client_id=${
+  window.location.href = `${getOAuthIssuer()}/oauth2/authorize?client_id=${
     import.meta.env.VITE_OAUTH_CLIENT_ID
   }&response_type=code&scope=openid&redirect_uri=${getConsoleUrl()}/oauth2/redirect&code_challenge=${codeChallenge}&code_challenge_method=S256&state=${state}`;
 }

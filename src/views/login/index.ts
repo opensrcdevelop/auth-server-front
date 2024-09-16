@@ -1,10 +1,6 @@
 import { Notification } from "@arco-design/web-vue";
-import { reactive, ref, defineComponent } from "vue";
-import {
-  getQueryString,
-  handleApiError,
-  handleApiSuccess,
-} from "@/util/tool";
+import { reactive, ref, defineComponent, onMounted } from "vue";
+import { getQueryString, handleApiError, handleApiSuccess } from "@/util/tool";
 import {
   loginSubmit,
   totpValidSubmit,
@@ -17,6 +13,9 @@ import { logoutSubmit } from "@/api/logout";
 import router from "@/router";
 import { useGlobalVariablesStore } from "@/store/globalVariables";
 import { checkConsoleAccess } from "@/util/commonFunc";
+
+/** 租户名称 */
+const tenantName = ref(undefined);
 
 const passwordLoginForm = reactive({
   username: undefined,
@@ -112,13 +111,12 @@ const handleTotpValidSubmit = (code) => {
 /**
  * 跳转至目标路径
  */
-function toTarget() {
+async function toTarget() {
   let target = getQueryString("target");
   if (target) {
     window.location.href = target;
   } else {
-    checkConsoleAccess();
-    router.push({ path: "/" });
+    await checkConsoleAccess();
   }
 }
 
@@ -408,7 +406,12 @@ const handleBackToForgotPwd = () => {
 
 export default defineComponent({
   setup() {
+    onMounted(() => {
+      tenantName.value = localStorage.getItem("tenantName");
+    })
+
     return {
+      tenantName,
       passwordLoginForm,
       passwordLoginRules,
       toMfa,

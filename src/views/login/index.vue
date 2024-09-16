@@ -10,6 +10,10 @@ export default loginTs;
 <template>
   <div class="login-container">
     <div class="form-container" v-if="!toMfa && !toFogotPwd">
+      <div v-if="tenantName" class="tenant-name">
+        <icon-font type="icon-tenant" style="margin-right: 8px; font-size: 24px;" />
+        <span>{{ tenantName }}</span>
+      </div>
       <div class="title">统一身份认证</div>
       <a-tabs>
         <a-tab-pane key="1" title="密码登录">

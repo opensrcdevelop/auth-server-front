@@ -313,33 +313,33 @@ const router = createRouter({
  * 前置路由拦截
  */
 router.beforeEach((to, from, next) => {
-  if (to.path === "/404") {
-    next();
-  } else {
-    handleCheckTenant().then(() => {
-      if (!localStorage.getItem("accessToken")) {
-        if (
-          to.path === "/oauth2/redirect" ||
-          to.path === "/login" ||
-          to.path === "/login/changePwd" ||
-          to.path === "/403" ||
-          to.path === "/404"
-        ) {
-          next();
-        } else {
-          router.push("/oauth2/redirect");
-        }
-      } else {
+  handleCheckTenant(to).then(() => {
+    if (!localStorage.getItem("accessToken")) {
+      if (
+        to.path === "/oauth2/redirect" ||
+        to.path === "/login" ||
+        to.path === "/login/changePwd" ||
+        to.path === "/404" ||
+        to.path === "/403"
+      ) {
         next();
+      } else {
+        router.push("/oauth2/redirect");
       }
-    });
-  }
+    } else {
+      next();
+    }
+  });
 });
 
 /**
  * 检查租户是否存在
  */
-async function handleCheckTenant() {
+async function handleCheckTenant(to: any) {
+  if (to.path === "/404" || to.path === "/403") {
+    return;
+  }
+
   const tenantCode = getSubDomain();
   if (tenantCode) {
     // 检查租户标识
@@ -349,19 +349,18 @@ async function handleCheckTenant() {
       if (data.exists) {
         localStorage.setItem("OAuthIssuer", data.issuer);
         localStorage.setItem("tenantCode", tenantCode);
+        localStorage.setItem("tenantName", data.tenantName);
       } else {
         // 租户不存在
         localStorage.removeItem("OAuthIssuer");
         localStorage.removeItem("tenantCode");
+        localStorage.removeItem("tenantName");
         router.push({
           path: "/404",
         });
       }
     } catch (error) {
       Notification.error("检查租户标识错误");
-      router.push({
-        path: "/404",
-      });
     }
   }
 }

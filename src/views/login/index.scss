@@ -5,6 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  user-select: none;
 
   .form-container {
     display: flex;
@@ -17,6 +18,16 @@
     position: relative;
     box-shadow: 0 0 60px rgba(84, 89, 104, 0.05);
     box-sizing: border-box;
+
+    .tenant-name {
+      color: #396aff;
+      font-size: 18px;
+      font-weight: 400;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      margin-bottom: 8px;
+    }
 
     .title {
       width: 100%;
