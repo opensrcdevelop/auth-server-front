@@ -37,7 +37,7 @@ export default detailTs;
                 />
               </a-form-item>
               <a-form-item field="expression" label="SpringEL 表达式">
-                <a-input
+                <a-textarea
                   v-model="permissionExpInfoForm.expression"
                   placeholder="请输入 SpringEL 表达式"
                 />

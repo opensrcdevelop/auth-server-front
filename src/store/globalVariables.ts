@@ -17,10 +17,6 @@ export const useGlobalVariablesStore = defineStore("globalVariables", {
       },
       /** 资源组ID */
       resourceGroupId: undefined,
-      /** 变更密码用户名 */
-      changePwdUsername: undefined,
-      /** 控制台权限 */
-      consoleAccess: false,
     };
   },
   actions: {

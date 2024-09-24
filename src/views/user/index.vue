@@ -87,6 +87,7 @@ export default userTs;
                                 'NUMBER',
                                 'BOOLEAN',
                                 'DATETIME',
+                                'DATE',
                               ].includes(filter.dataType)
                             "
                             >等于</a-option
@@ -99,6 +100,7 @@ export default userTs;
                                 'NUMBER',
                                 'BOOLEAN',
                                 'DATETIME',
+                                'DATE',
                               ].includes(filter.dataType)
                             "
                             >不等于</a-option
@@ -116,14 +118,14 @@ export default userTs;
                           <a-option
                             value="GT"
                             v-if="
-                              ['NUMBERE', 'DATETIME'].includes(filter.dataType)
+                              ['NUMBERE', 'DATETIME', 'DATE'].includes(filter.dataType)
                             "
                             >大于</a-option
                           >
                           <a-option
                             value="LT"
                             v-if="
-                              ['NUMBERE', 'DATETIME'].includes(filter.dataType)
+                              ['NUMBERE', 'DATETIME', 'DATE'].includes(filter.dataType)
                             "
                             >小于</a-option
                           >
@@ -158,6 +160,11 @@ export default userTs;
                         <a-date-picker
                           v-if="filter.dataType === 'DATETIME'"
                           show-time
+                          value-format="timestamp"
+                          v-model="filter.value"
+                        />
+                        <a-date-picker
+                          v-if="filter.dataType === 'DATE'"
                           value-format="timestamp"
                           v-model="filter.value"
                         />

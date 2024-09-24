@@ -11,7 +11,7 @@ const handleBack = () => {
   router.back();
 };
 
-/** 
+/**
  * 创建用户字段表单
  */
 const createUserColumnFormRef = ref();
@@ -22,6 +22,8 @@ const createUserColumnForm = reactive({
   extFlg: true,
   userLstDisplay: false,
   displayWidth: undefined,
+  userVisible: true,
+  userEditable: true,
 });
 const createUserColumnFormRules = {
   key: [{ required: true, message: "字段 key 未填写" }],
@@ -40,28 +42,32 @@ const createUserColumnFormRules = {
       },
     },
   ],
+  userVisible: [{ required: true, message: "个人中心是否可见未选择" }],
+  userEditable: [{ required: true, message: "用户是否可编辑未选择" }],
 };
 
 /**
  * 提交创建用户字段表单
  */
 const handleCreateUserColumnFormSubmit = (formData: any) => {
-  createUserAttr(formData).then((result: any) => {
-    handleApiSuccess(result, () => {
-      Notification.success("创建成功")
-      handleResetCreateUserColumnForm();
+  createUserAttr(formData)
+    .then((result: any) => {
+      handleApiSuccess(result, () => {
+        Notification.success("创建成功");
+        handleResetCreateUserColumnForm();
+      });
     })
-  }).catch((err: any) => {
-    handleApiError(err, "创建用户字段");
-  })
-}
+    .catch((err: any) => {
+      handleApiError(err, "创建用户字段");
+    });
+};
 
 /**
  * 重置创建用户字段表单
  */
 const handleResetCreateUserColumnForm = () => {
   createUserColumnFormRef.value.resetFields();
-}
+};
 
 export default defineComponent({
   setup() {
@@ -71,7 +77,7 @@ export default defineComponent({
       createUserColumnFormRef,
       createUserColumnFormRules,
       handleCreateUserColumnFormSubmit,
-      handleResetCreateUserColumnForm
+      handleResetCreateUserColumnForm,
     };
   },
 });

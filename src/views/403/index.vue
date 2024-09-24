@@ -5,6 +5,11 @@
       title="403 Forbidden"
       subtitle="没有权限访问，请联系管理员。"
     >
+      <template #extra>
+        <a-button type="text" @click="$router.push('/user/home')"
+          >前往个人中心</a-button
+        >
+      </template>
     </a-result>
   </div>
 </template>

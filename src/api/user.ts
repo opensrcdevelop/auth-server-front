@@ -189,7 +189,7 @@ export function rebindMfaDevice(id: string) {
 
 /**
  * 清空授权的 Token
- * 
+ *
  * @param id 用户 ID
  * @returns 调用结果
  */
@@ -198,3 +198,66 @@ export function clearAuthorizedTokens(id: string) {
     url: `/user/${id}/token`,
   });
 }
+
+/**
+ * 获取用户中心可见的用户属性
+ *
+ * @returns 用户中心可见的用户属性
+ */
+export function getVisibleUserAttrs() {
+  return apiRequest.get({
+    url: "/user/attr/list/visible",
+  });
+}
+
+/**
+ * 更新个人用户信息
+ * 
+ * @param data 个人用户信息
+ * @returns 调用结果
+ */
+export function updateMyUserInfo(data: any) {
+  return apiRequest.put({
+    url: "/user/me",
+    data,
+  });
+}
+
+/**
+ * 发送绑定邮箱验证码
+ * 
+ * @param to 邮箱
+ * @returns 调用结果
+ */
+export function sendBindEmailCode (to: string) {
+  return apiRequest.post({
+    url: `/code/email/bind/${to}`,
+  });
+}
+
+/**
+ * 绑定邮箱
+ * 
+ * @param data 请求
+ * @returns 调用结果
+ */
+export function bindEmail (data: any) {
+  return apiRequest.post({
+    url: '/user/me/email/bind',
+    data,
+  });
+}
+
+/**
+ * 解绑邮箱
+ * 
+ * @param data 请求
+ * @returns 调用结果
+ */
+export function unbindEmail (data: any) {
+  return apiRequest.post({
+    url: '/user/me/email/unbind',
+    data,
+  });
+}
+

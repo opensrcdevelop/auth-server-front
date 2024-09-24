@@ -93,7 +93,7 @@ export function getToken(data: any) {
  */
 export function changePwd(data: any) {
   return apiRequest.post({
-    url: "/user/changePwd",
+    url: "/user/me/password/change",
     data,
   });
 }
@@ -119,7 +119,7 @@ export function checkCode(data: any) {
  */
 export function resetPwd(data: any) {
   return apiRequest.post({
-    url: "/user/resetPwd",
+    url: "/user/me/password/reset",
     data,
   });
 }

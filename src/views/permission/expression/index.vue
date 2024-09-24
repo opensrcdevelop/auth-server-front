@@ -59,7 +59,6 @@ export default expressionTs;
           <a-table-column
             title="SpringEL 表达式"
             ellipsis
-            tooltip
             :sortable="{
               sortDirections: ['ascend', 'descend'],
             }"

@@ -67,6 +67,7 @@ export default detailTs;
                       <a-option value="BOOLEAN">布尔值</a-option>
                       <a-option value="NUMBER">数字</a-option>
                       <a-option value="DATETIME">日期时间</a-option>
+                      <a-option value="DATE">日期</a-option>
                     </a-select>
                   </a-form-item>
                 </a-col>
@@ -112,6 +113,28 @@ export default detailTs;
                         <span>px</span>
                       </template>
                     </a-input-number>
+                  </a-form-item>
+                </a-col>
+                <a-col :span="12">
+                  <a-form-item field="userVisible" label="个人中心是否可见">
+                    <a-select
+                      v-model="userColumnInfoForm.userVisible"
+                      placeholder="请选择个人中心是否可见"
+                    >
+                      <a-option :value="true">可见</a-option>
+                      <a-option :value="false">不可见</a-option>
+                    </a-select>
+                  </a-form-item>
+                </a-col>
+                <a-col :span="12">
+                  <a-form-item field="userEditable" label="用户是否可编辑">
+                    <a-select
+                      v-model="userColumnInfoForm.userEditable"
+                      placeholder="请选择用户是否可编辑"
+                    >
+                      <a-option :value="true">可编辑</a-option>
+                      <a-option :value="false">不可编辑</a-option>
+                    </a-select>
                   </a-form-item>
                 </a-col>
               </a-row>

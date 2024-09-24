@@ -25,7 +25,7 @@ app.use(ArcoVueIcon);
 app.use(QRCode);
 
 const IconFont = Icon.addFromIconFontCn({
-  src: "https://at.alicdn.com/t/c/font_4594700_rudv4jonbvi.js",
+  src: "https://at.alicdn.com/t/c/font_4594700_lggsbvuze4.js",
 });
 app.component("icon-font", IconFont);
 app.component("page-header", PageHeader);

@@ -42,6 +42,8 @@ const userColumnInfoForm = reactive({
   extFlg: undefined,
   userLstDisplay: undefined,
   displayWidth: undefined,
+  userVisible: undefined,
+  userEditable: undefined,
 });
 const userColumnInfoFormRules = {
   key: [{ required: true, message: "字段 key 未填写" }],
@@ -49,6 +51,8 @@ const userColumnInfoFormRules = {
   dataType: [{ required: true, message: "表单类型未选择" }],
   extFlg: [{ required: true, message: "字段类型未选择" }],
   userLstDisplay: [{ required: true, message: "是否在用户列表显示未选择" }],
+  userVisible: [{ required: true, message: "个人中心是否可见未选择" }],
+  userEditable: [{ required: true, message: "用户是否可编辑未选择" }],
 };
 
 /**
@@ -69,6 +73,8 @@ const handleGetUserColumnDetail = (id: string) => {
       userColumnInfoForm.extFlg = data.extFlg;
       userColumnInfoForm.userLstDisplay = data.userLstDisplay;
       userColumnInfoForm.displayWidth = data.displayWidth;
+      userColumnInfoForm.userVisible = data.userVisible;
+      userColumnInfoForm.userEditable = data.userEditable;
     });
   });
 };

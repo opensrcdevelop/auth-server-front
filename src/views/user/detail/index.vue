@@ -230,6 +230,12 @@ export default detailTs;
                       value-format="timestamp"
                       v-model="userAttrValues[index]"
                     />
+                    <a-date-picker
+                      style="width: 100%"
+                      v-if="attr.dataType === 'DATE'"
+                      value-format="timestamp"
+                      v-model="userAttrValues[index]"
+                    />
                   </a-form-item>
                 </a-col>
               </a-row>

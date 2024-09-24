@@ -81,6 +81,7 @@ export default userAttrTs;
               <span v-if="record.dataType === 'BOOLEAN'"> 布尔值 </span>
               <span v-if="record.dataType === 'NUMBER'"> 数字 </span>
               <span v-if="record.dataType === 'DATETIME'"> 日期时间 </span>
+              <span v-if="record.dataType === 'DATE'"> 日期 </span>
             </template>
           </a-table-column>
           <a-table-column

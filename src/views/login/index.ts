@@ -12,7 +12,6 @@ import {
 import { logoutSubmit } from "@/api/logout";
 import router from "@/router";
 import { useGlobalVariablesStore } from "@/store/globalVariables";
-import { checkConsoleAccess } from "@/util/commonFunc";
 
 /** 租户名称 */
 const tenantName = ref(undefined);
@@ -116,7 +115,9 @@ async function toTarget() {
   if (target) {
     window.location.href = target;
   } else {
-    await checkConsoleAccess();
+    router.push({
+      path: "/"
+    })
   }
 }
 
@@ -205,23 +206,9 @@ const handleEmailLoginFormSubmit = (formData) => {
  * @param result 登录结果
  */
 const handleLoginResult = (result: any, loginType: string) => {
-  // 设置控制台访问权限
-  const globalVariables = useGlobalVariablesStore();
-  globalVariables.consoleAccess = result.consoleAccess;
-  globalVariables.saveData();
-
+  
   // 需要修改密码
   if (result.needChangePwd) {
-    const globalVariables = useGlobalVariablesStore();
-    if (loginType === "password") {
-      globalVariables.changePwdUsername = passwordLoginForm.username;
-    }
-
-    if (loginType === "email") {
-      globalVariables.changePwdUsername = emailLoginForm.email;
-    }
-    globalVariables.saveData();
-
     router.push({
       path: "/login/changePwd",
     });

@@ -5,12 +5,13 @@ import {
   generateCodeChallenge,
   getOAuthIssuer,
   getConsoleUrl,
+  handleApiSuccess,
+  handleApiError,
 } from "@/util/tool";
 import { getToken } from "@/api/login";
 import router from "@/router";
 import { ref } from "vue";
-import { useGlobalVariablesStore } from "@/store/globalVariables";
-import { checkConsoleAccess } from "@/util/commonFunc";
+import { logoutSubmit } from "@/api/logout";
 
 // 获取地址栏授权码
 const code = getQueryString("code");
@@ -20,38 +21,33 @@ const hasError = ref(false);
 const errorText = ref("");
 
 if (code) {
-  const globalVariables = useGlobalVariablesStore().getData();
-  if (globalVariables.consoleAccess) {
-    // 校验 state，防止 CSRF
-    const state = localStorage.getItem("state");
-    const urlState = getQueryString("state");
-    if (urlState !== state) {
-      hasError.value = true;
-      errorText.value = "state 不匹配，可能存在 CSRF 攻击";
-    } else {
-      // 获取 token
-      getToken({
-        grant_type: "authorization_code",
-        client_id: import.meta.env.VITE_OAUTH_CLIENT_ID,
-        client_secret: import.meta.env.VITE_OAUTH_CLIENT_SECRET,
-        redirect_uri: `${getConsoleUrl()}/oauth2/redirect`,
-        code,
-        code_verifier: localStorage.getItem("codeVerifier"),
-        state,
-      })
-        .then((res: any) => {
-          localStorage.setItem("accessToken", JSON.stringify(res));
-          localStorage.removeItem("state");
-          localStorage.removeItem("codeVerifier");
-          router.push({ path: "/" });
-        })
-        .catch((err: any) => {
-          hasError.value = true;
-          errorText.value = err.data.message || err.statusText;
-        });
-    }
+  // 校验 state，防止 CSRF
+  const state = localStorage.getItem("state");
+  const urlState = getQueryString("state");
+  if (urlState !== state) {
+    hasError.value = true;
+    errorText.value = "state 不匹配，可能存在 CSRF 攻击";
   } else {
-    checkConsoleAccess();
+    // 获取 token
+    getToken({
+      grant_type: "authorization_code",
+      client_id: import.meta.env.VITE_OAUTH_CLIENT_ID,
+      client_secret: import.meta.env.VITE_OAUTH_CLIENT_SECRET,
+      redirect_uri: `${getConsoleUrl()}/oauth2/redirect`,
+      code,
+      code_verifier: localStorage.getItem("codeVerifier"),
+      state,
+    })
+      .then((res: any) => {
+        localStorage.setItem("accessToken", JSON.stringify(res));
+        localStorage.removeItem("state");
+        localStorage.removeItem("codeVerifier");
+        router.push({ path: "/" });
+      })
+      .catch((err: any) => {
+        hasError.value = true;
+        errorText.value = err.data.message || err.statusText;
+      });
   }
 } else {
   // 生成 state
@@ -72,6 +68,18 @@ if (code) {
 }
 
 loading.value = false;
+
+const handleRetry = () => {
+  logoutSubmit()
+    .then((result: any) => {
+      handleApiSuccess(result, () => {
+       window.location.href = `${getConsoleUrl()}/`;
+      });
+    })
+    .catch((err: any) => {
+      handleApiError(err, "退出登录");
+    });
+};
 </script>
 
 <template>
@@ -82,6 +90,14 @@ loading.value = false;
           <div class="title">token 获取失败</div>
         </template>
         <template #subtitle> 错误详情： {{ errorText }} </template>
+        <template #extra>
+          <a-button type="text" @click="handleRetry">
+            <template #icon>
+              <icon-refresh />
+            </template>
+            重试
+          </a-button>
+        </template>
       </a-result>
     </a-spin>
   </div>

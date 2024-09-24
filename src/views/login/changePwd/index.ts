@@ -1,13 +1,9 @@
 import { changePwd } from "@/api/login";
 import { handleApiError, handleApiSuccess } from "@/util/tool";
-import { defineComponent, onMounted, reactive, ref } from "vue";
-import { useRoute } from "vue-router";
+import { defineComponent, reactive } from "vue";
 import router from "@/router";
 import { Notification } from "@arco-design/web-vue";
 import { logoutSubmit } from "@/api/logout";
-import { useGlobalVariablesStore } from "@/store/globalVariables";
-
-const username = ref("");
 
 const changePwdForm = reactive({
   rawPwd: "",
@@ -39,39 +35,36 @@ const changePwdFormRules = {
  */
 const handleChangePwdFormSubmit = (formData: any) => {
   changePwd({
-    username: username.value,
     rawPwd: formData.rawPwd,
     newPwd: formData.newPwd,
   })
     .then((result: any) => {
       handleApiSuccess(result, () => {
         Notification.success("修改密码成功");
-        // 登出
-        logoutSubmit()
-          .then((result: any) => {
-            handleApiSuccess(result, () => {
-              router.push({
-                path: "/oauth2/redirect",
-              });
-            });
-          })
-          .catch((err: any) => {
-            handleApiError(err, "登出");
-          });
+        router.push({
+          path: "/",
+        });
       });
     })
     .catch((err: any) => {
       handleApiError(err, "修改密码");
+      // 登出
+      logoutSubmit()
+        .then((result: any) => {
+          handleApiSuccess(result, () => {
+            router.push({
+              path: "/oauth2/redirect",
+            });
+          });
+        })
+        .catch((err: any) => {
+          handleApiError(err, "登出");
+        });
     });
 };
 
 export default defineComponent({
   setup() {
-    onMounted(() => {
-      const globalVariables = useGlobalVariablesStore().getData();
-      username.value = globalVariables.changePwdUsername;
-    });
-
     return {
       changePwdForm,
       changePwdFormRules,

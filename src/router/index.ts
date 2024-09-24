@@ -291,6 +291,10 @@ export const routes: RouteRecordRaw[] = [
     component: () => import("@/views/login/changePwd/index.vue"),
   },
   {
+    path: "/user/home",
+    component: () => import("@/views/user/home/index.vue"),
+  },
+  {
     path: "/403",
     component: () => import("@/views/403/index.vue"),
   },
