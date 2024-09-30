@@ -47,6 +47,7 @@ const permissionInfoForm = reactive({
   code: undefined,
   name: undefined,
   desc: undefined,
+  resourceId: undefined,
 });
 const permissionInfoFormRules = {
   name: [{ required: true, message: "权限名称未填写" }],
@@ -111,6 +112,7 @@ const handleGetPermissionDetail = (id: string) => {
         permissionInfoForm.code = data.permissionCode;
         permissionInfoForm.name = data.permissionName;
         permissionInfoForm.desc = data.permissionDesc;
+        permissionInfoForm.resourceId = data.resourceId;
 
         authorizeRecords.length = 0;
         authorizeRecords.push(...data.authorizeRecords);

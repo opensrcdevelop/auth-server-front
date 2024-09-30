@@ -76,6 +76,9 @@ const createClientFormRules = {
   ],
 };
 
+const createClientSuccessModalVisible = ref(false);
+const clientSecret = ref("");
+
 /**
  * 获取 OIDC Scope
  */
@@ -114,7 +117,8 @@ const handleCreateClientFormSubmit = (formData) => {
   })
     .then((result: any) => {
       handleApiSuccess(result, () => {
-        Notification.success("创建成功");
+        clientSecret.value = result.data.secret;
+        createClientSuccessModalVisible.value = true;
         handleResetCreateClientForm();
         authorizationCodeTimeToLiveUnit.value = 1;
         accessTokenTimeToLiveUnit.value = 60;
@@ -137,7 +141,7 @@ export default defineComponent({
   setup() {
     onMounted(() => {
       handleGetOidcScopes();
-    })
+    });
 
     return {
       handleBack,
@@ -149,7 +153,9 @@ export default defineComponent({
       refreshTokenTimeToLiveUnit,
       handleCreateClientFormSubmit,
       handleResetCreateClientForm,
-      oidcScopes
+      oidcScopes,
+      createClientSuccessModalVisible,
+      clientSecret,
     };
   },
 });

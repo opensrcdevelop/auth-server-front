@@ -423,7 +423,6 @@ const handleAuthorizeFormSubmit = () => {
 
   authorizeFormRef.value.validate((errors) => {
     if (!errors) {
-      delete authorizeForm.resourceId;
       authorize(authorizeForm)
         .then((result: any) => {
           handleApiSuccess(result, () => {

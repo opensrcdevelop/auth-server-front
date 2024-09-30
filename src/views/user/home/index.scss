@@ -67,13 +67,14 @@
     flex: 1 1;
     margin: 64px auto 0;
     width: 100%;
-    overflow: auto;
 
     .tabs-container {
       overflow: auto;
+      height: 100vh;
       width: 1200px;
       margin: 0 auto;
       padding: 24px 0;
+      box-sizing: border-box;
 
       .card {
         width: 100%;

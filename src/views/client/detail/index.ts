@@ -368,7 +368,7 @@ const handleSaveOidcScopeSubmit = (scope: any) => {
         });
       })
       .catch((err: any) => {
-        handleApiError(err, "更新 OIDC Scope 失败");
+        handleApiError(err, "更新 OIDC Scope");
       });
   } else {
     // 创建 OIDC scope

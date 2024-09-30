@@ -67,9 +67,7 @@ export default createTs;
             <a-checkbox value="client_secret_post"
               >client_secret_post</a-checkbox
             >
-            <a-checkbox value="none"
-              >none</a-checkbox
-            >
+            <a-checkbox value="none">none</a-checkbox>
           </a-checkbox-group>
         </a-form-item>
         <a-form-item field="scopes" label="OIDC Scope">
@@ -148,4 +146,25 @@ export default createTs;
       </a-form>
     </page-header>
   </div>
+
+  <a-modal
+    v-model:visible="createClientSuccessModalVisible"
+    hide-cancel
+    :footer="false"
+    :mask-closable="false"
+    :width="660"
+  >
+    <template #title>
+      <div>
+        <icon-check-circle-fill
+          style="color: rgb(var(--green-6)); margin-right: 4px"
+        />
+        创建客户端成功
+      </div>
+    </template>
+    <div class="secret-modal">
+      <copy-text :text="clientSecret" />
+      <div class="info-text">客户端密钥仅显示一次，请及时保存。</div>
+    </div>
+  </a-modal>
 </template>
