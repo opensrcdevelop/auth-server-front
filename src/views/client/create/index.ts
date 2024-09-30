@@ -2,7 +2,6 @@ import { defineComponent, onMounted, reactive, ref } from "vue";
 import router from "@/router";
 import { createClient } from "@/api/client";
 import { handleApiError, handleApiSuccess } from "@/util/tool";
-import { Notification } from "@arco-design/web-vue";
 import { getOidcScopes } from "@/api/oidc";
 
 /**
@@ -107,6 +106,7 @@ const handleCreateClientFormSubmit = (formData) => {
     redirectUri: formData.redirectUri,
     grantTypes: formData.grantTypes,
     authenticationMethods: formData.authenticationMethods,
+    scopes: formData.scopes,
     authorizationCodeTimeToLive:
       formData.authorizationCodeTimeToLive *
       authorizationCodeTimeToLiveUnit.value,

@@ -132,6 +132,9 @@ const handleGetPermissionList = (page: number = 1, size: number = 15) => {
         }
         permissionListPagination.current = data.current;
         permissionListPagination.total = data.total;
+
+        // 清空已选择的权限
+        authorizeForm.permissionIds = [];
       });
     })
     .catch((err: any) => {
