@@ -11,7 +11,6 @@ import {
 } from "@/api/login";
 import { logoutSubmit } from "@/api/logout";
 import router from "@/router";
-import { useGlobalVariablesStore } from "@/store/globalVariables";
 
 /** 租户名称 */
 const tenantName = ref(undefined);
@@ -45,6 +44,7 @@ const totpValidForm = reactive({
 });
 
 const loginLoading = ref(false);
+const mfaValidLoading = ref(false);
 
 /**
  * 返回登录页
@@ -91,6 +91,7 @@ const handlePasswordLoginFromSubmit = (formData) => {
  * @param code
  */
 const handleTotpValidSubmit = (code) => {
+  mfaValidLoading.value = true;
   totpValidSubmit(totpValidForm)
     .then((result: any) => {
       handleApiSuccess(result, (data: any) => {
@@ -98,12 +99,14 @@ const handleTotpValidSubmit = (code) => {
           toTarget();
         } else {
           Notification.warning("安全码错误，请重新输入");
-          totpValidForm.code = "";
         }
       });
     })
     .catch((err: any) => {
       handleApiError(err, "MFA认证");
+    })
+    .finally(() => {
+      mfaValidLoading.value = false;
     });
 };
 
@@ -116,8 +119,8 @@ async function toTarget() {
     window.location.href = target;
   } else {
     router.push({
-      path: "/"
-    })
+      path: "/",
+    });
   }
 }
 
@@ -206,7 +209,6 @@ const handleEmailLoginFormSubmit = (formData) => {
  * @param result 登录结果
  */
 const handleLoginResult = (result: any, loginType: string) => {
-  
   // 需要修改密码
   if (result.needChangePwd) {
     router.push({
@@ -395,7 +397,7 @@ export default defineComponent({
   setup() {
     onMounted(() => {
       tenantName.value = localStorage.getItem("tenantName");
-    })
+    });
 
     return {
       tenantName,
@@ -433,6 +435,7 @@ export default defineComponent({
       resetPwdFormRules,
       handleResetPwdFormSubmit,
       handleBackToForgotPwd,
+      mfaValidLoading,
     };
   },
 });

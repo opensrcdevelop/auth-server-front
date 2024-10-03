@@ -103,7 +103,7 @@ export default loginTs;
       </a-tabs>
     </div>
     <div class="form-container" v-if="toMfa && !toBind && !toFogotPwd">
-      <div>
+      <a-spin style="width: 100%; height: 100%;" :loading="mfaValidLoading">
         <a-button type="text" size="mini" @click="backToLogin">
           返回登录
           <template #icon>
@@ -120,7 +120,7 @@ export default loginTs;
             @finish="handleTotpValidSubmit"
           />
         </div>
-      </div>
+      </a-spin>
     </div>
     <div class="form-container" v-if="toMfa && toBind && !toFogotPwd">
       <div>
