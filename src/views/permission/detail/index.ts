@@ -242,6 +242,7 @@ const handleGetAuthorizeConditionList = (
         } else {
           authorizeConditionList.push(...data.list);
         }
+        authorizeConditionListPagination.current = data.current;
         authorizeConditionListPagination.total = data.total;
       });
     })

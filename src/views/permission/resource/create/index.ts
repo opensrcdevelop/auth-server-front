@@ -37,6 +37,7 @@ const handleGetResourceGroupList = (
         } else {
           resourceGroupList.push(...data.list);
         }
+        resourceGroupListPagination.current = data.current;
         resourceGroupListPagination.total = data.total;
       });
     })
