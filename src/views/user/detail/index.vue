@@ -209,16 +209,19 @@ export default detailTs;
                       hide-button
                       v-model="userAttrValues[index]"
                       allowClear
+                      :placeholder="`请输入${attr.name}`"
                     />
                     <a-input
                       v-if="attr.dataType === 'STRING'"
                       v-model="userAttrValues[index]"
                       allowClear
+                      :placeholder="`请输入${attr.name}`"
                     />
                     <a-select
                       v-if="attr.dataType === 'BOOLEAN'"
                       v-model="userAttrValues[index]"
                       allowClear
+                      :placeholder="`请选择${attr.name}`"
                     >
                       <a-option :value="true">是</a-option>
                       <a-option :value="false">否</a-option>
@@ -229,12 +232,14 @@ export default detailTs;
                       show-time
                       value-format="timestamp"
                       v-model="userAttrValues[index]"
+                      :placeholder="`请选择${attr.name}`"
                     />
                     <a-date-picker
                       style="width: 100%"
                       v-if="attr.dataType === 'DATE'"
                       value-format="timestamp"
                       v-model="userAttrValues[index]"
+                      :placeholder="`请选择${attr.name}`"
                     />
                   </a-form-item>
                 </a-col>

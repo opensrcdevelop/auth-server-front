@@ -171,7 +171,7 @@ async function hanlde401(axios: AxiosInstance) {
         Notification.error("刷新 token 失败")
         // 如果获取失败，则跳转到登录页面
         router.push({
-          path: "/oauth2-redirect",
+          path: "/oauth2/redirect",
         });
         localStorage.removeItem("accessToken");
         return false;
